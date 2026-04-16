@@ -14,10 +14,25 @@ npm run build
 
 ## 2) Configure hosting target
 
-Deploy `workshop-site` as a standalone static app (for example Vercel, Netlify, or Cloudflare Pages).
+Deploy `workshop-site` as a standalone static app (for example Vercel, Netlify, or Cloudflare).
 
 - Build command: `npm run build`
 - Output directory: `dist`
+
+### Cloudflare Workers (Static Assets + Wrangler)
+
+If you deploy with **Wrangler** / **Workers Static Assets** (the flow that uploads `workers/scripts/<name>/versions`), use the included [`wrangler.toml`](./wrangler.toml):
+
+- `[assets].directory` points at `./dist/` after `npm run build`.
+- `not_found_handling = "single-page-application"` serves `/index.html` for navigation requests that do not match a file (deep links like `/skill-tree` work).
+
+Do **not** add `public/_redirects` with `/* /index.html 200` for this product: Cloudflare’s API rejects that pattern as an infinite loop ([error 10021](https://developers.cloudflare.com/workers/observability/errors/#validation-errors-10021)).
+
+Set `name` in `wrangler.toml` to match your Worker’s name in the Cloudflare dashboard (defaults to `site` here because that matches a common setup; change it if yours differs).
+
+### Cloudflare Pages
+
+If you use **Pages** instead, point the project at this folder, same build/output. Pages can handle SPA fallbacks without `_redirects` in many setups; prefer dashboard “SPA” / fallback settings if a route 404s.
 
 ## 3) DNS and Cloudflare
 
@@ -27,11 +42,9 @@ Deploy `workshop-site` as a standalone static app (for example Vercel, Netlify, 
    - Start with `Full`.
    - Move to `Full (strict)` once origin certificates are configured.
 
-## 4) SPA route fallback
+## 4) SPA route fallback (summary)
 
-Because this app uses client-side routing, configure your host to serve `index.html` for unknown routes so paths like `/skill-tree` and `/diff-viewer` load correctly.
-
-For **Cloudflare Pages**, this repo includes `public/_redirects` with a single-page-app rule so deep links work after deploy.
+Client-side routes need either **host-level SPA fallback** or **`not_found_handling = "single-page-application"`** in Wrangler (this repo uses the latter for Workers deploys).
 
 ## 5) Future Supabase integration
 
