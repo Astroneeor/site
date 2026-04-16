@@ -1,10 +1,18 @@
+import { ToolHistoryPanel } from '../components/ToolHistoryPanel'
+
 type ToolPageProps = {
+  toolId: string
   title: string
   description: string
   backendStatus: string
 }
 
-export function ToolPage({ title, description, backendStatus }: ToolPageProps) {
+export function ToolPage({
+  toolId,
+  title,
+  description,
+  backendStatus,
+}: ToolPageProps) {
   return (
     <section className="panel">
       <h1>{title}</h1>
@@ -13,6 +21,7 @@ export function ToolPage({ title, description, backendStatus }: ToolPageProps) {
         <h2>Backend readiness</h2>
         <p>{backendStatus}</p>
       </div>
+      <ToolHistoryPanel toolId={toolId} />
     </section>
   )
 }

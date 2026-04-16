@@ -5,13 +5,13 @@ const tools = [
     route: '/skill-tree',
     name: 'Skill Tree Builder',
     details: 'Map dependencies between skills and track progression.',
-    access: 'Requires login',
+    access: 'Public. Local snapshots in this browser; account history after login.',
   },
   {
     route: '/diff-viewer',
     name: 'Diff Viewer',
     details: 'Inspect edited files quickly across unified and split views.',
-    access: 'Requires login',
+    access: 'Public. Local snapshots in this browser; account history after login.',
   },
 ]
 
@@ -20,8 +20,9 @@ export function LibraryPage() {
     <section className="panel">
       <h1>Workshop Library</h1>
       <p>
-        This workshop hosts your internal tools at one domain, with shared auth and
-        consistent navigation.
+        Tools are open to everyone. Each tool keeps lightweight history in this
+        browser without an account. Sign in when you want account-backed history
+        (cross-device later via Supabase).
       </p>
       <div className="tool-grid">
         {tools.map((tool) => (

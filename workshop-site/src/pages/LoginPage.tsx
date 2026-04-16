@@ -1,11 +1,27 @@
 import { useState, type FormEvent } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
+
+function safeInternalPath(candidate: string | null): string | null {
+  if (!candidate || !candidate.startsWith('/') || candidate.startsWith('//')) {
+    return null
+  }
+  if (candidate.includes(':')) {
+    return null
+  }
+  return candidate
+}
 
 export function LoginPage() {
   const { isAuthenticated, login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -16,6 +32,7 @@ export function LoginPage() {
 
   const fromPath = (location.state as { from?: { pathname?: string } } | null)?.from
     ?.pathname
+  const nextParam = safeInternalPath(searchParams.get('next'))
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -28,7 +45,7 @@ export function LoginPage() {
 
     try {
       await login(email.trim(), password)
-      navigate(fromPath ?? '/', { replace: true })
+      navigate(fromPath ?? nextParam ?? '/', { replace: true })
     } catch {
       setError('Unable to sign in right now.')
     }

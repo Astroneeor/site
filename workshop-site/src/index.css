@@ -127,3 +127,93 @@ button {
   color: #ff9f9f;
   margin: 0;
 }
+
+.history-panels {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.history-panel {
+  border: 1px solid #2d6f53;
+  border-radius: 10px;
+  padding: 1rem;
+  background: rgba(8, 25, 18, 0.75);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.history-panel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.history-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.88;
+}
+
+.history-empty {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.history-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.history-list li {
+  margin-bottom: 0.35rem;
+}
+
+.history-label {
+  display: block;
+}
+
+.history-meta {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.history-crosslink {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.history-crosslink a {
+  text-decoration: underline;
+}
+
+.button-ghost {
+  border: 1px solid #3d8060;
+  border-radius: 8px;
+  padding: 0.35rem 0.65rem;
+  background: transparent;
+  color: #cbefda;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.history-table th,
+.history-table td {
+  border: 1px solid #2d6f53;
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+}
+
+.history-table th {
+  background: rgba(16, 50, 34, 0.6);
+}

@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { useAuth } from './auth/useAuth'
+import { CloudHistoryPage } from './pages/CloudHistoryPage'
 import { LibraryPage } from './pages/LibraryPage'
 import { LoginPage } from './pages/LoginPage'
 import { ToolPage } from './pages/ToolPage'
@@ -40,6 +41,9 @@ function AppShell() {
           <NavLink to="/">Library</NavLink>
           <NavLink to="/skill-tree">Skill Tree</NavLink>
           <NavLink to="/diff-viewer">Diff Viewer</NavLink>
+          {isAuthenticated ? (
+            <NavLink to="/history">Account history</NavLink>
+          ) : null}
         </nav>
         <div className="auth-status">
           {isAuthenticated ? (
@@ -68,27 +72,30 @@ function App() {
         <Route element={<AppShell />}>
           <Route path="/" element={<LibraryPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/skill-tree"
+            element={
+              <ToolPage
+                toolId="skill-tree"
+                title="Skill Tree Builder"
+                description="Model your growth path as a visual skill tree with dependencies."
+                backendStatus="No backend required for core editing. Save/share can be added later."
+              />
+            }
+          />
+          <Route
+            path="/diff-viewer"
+            element={
+              <ToolPage
+                toolId="diff-viewer"
+                title="Diff Viewer"
+                description="Inspect file edits quickly with side-by-side or unified diff modes."
+                backendStatus="Can run fully local. Optional backend later for sync/history."
+              />
+            }
+          />
           <Route element={<ProtectedRoute />}>
-            <Route
-              path="/skill-tree"
-              element={
-                <ToolPage
-                  title="Skill Tree Builder"
-                  description="Model your growth path as a visual skill tree with dependencies."
-                  backendStatus="No backend required for core editing. Save/share can be added later."
-                />
-              }
-            />
-            <Route
-              path="/diff-viewer"
-              element={
-                <ToolPage
-                  title="Diff Viewer"
-                  description="Inspect file edits quickly with side-by-side or unified diff modes."
-                  backendStatus="Can run fully local. Optional backend later for sync/history."
-                />
-              }
-            />
+            <Route path="/history" element={<CloudHistoryPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
