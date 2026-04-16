@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Structure
 
-This is a monorepo with two sub-projects:
+This is a monorepo with three sub-projects:
 
 - `static-site/` — Production portfolio site (Vite + React + TypeScript). The main site.
 - `game-site/` — Platformer game version of the site (in development).
+- `workshop-site/` — Workshop tool hub app (Vite + React + TypeScript + React Router).
 
 ## static-site Commands
 
@@ -21,6 +22,36 @@ npm run lint      # ESLint check
 ```
 
 No test runner is configured.
+
+## workshop-site Commands
+
+Run all commands from inside `workshop-site/`:
+
+```bash
+npm run dev       # Start workshop dev server
+npm run build     # Type-check then bundle for production → dist/
+npm run preview   # Serve production build locally
+npm run lint      # ESLint check
+```
+
+## workshop-site Architecture
+
+**Stack**: React + TypeScript + Vite + React Router
+
+**Routing strategy**:
+
+- One deployable app at `workshop.<domain>`
+- Tool pages as internal routes (`/skill-tree`, `/diff-viewer`, etc.)
+- Shared auth boundary for all workshop routes
+
+**Auth strategy**:
+
+- Current: mock auth adapter for local/dev readiness
+- Planned: replace adapter implementation with Supabase-backed auth when homelab endpoint is available
+
+**Deployment notes**:
+
+- See `workshop-site/DEPLOYMENT.md` for Cloudflare subdomain and SPA fallback guidance.
 
 ## static-site Architecture
 

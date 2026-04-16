@@ -1,0 +1,30 @@
+You are working in the `site` monorepo.
+
+Always do first:
+- Read `CLAUDE.md`.
+- Read `AGENT_MEMORY.md`.
+
+Repo map:
+- `static-site/`: production portfolio site (Vite + React + TypeScript + Tailwind, Framer Motion, GSAP, Lenis).
+- `game-site/`: platformer portfolio concept, early development.
+
+Working conventions:
+- Default implementation target is `static-site/` unless the user explicitly asks for `game-site/`.
+- Run commands from the correct project directory, not the repo root.
+- Before concluding frontend changes in `static-site/`, run:
+  - `npm run lint`
+  - `npm run build`
+- Keep visual style aligned with existing design system (forest palette, glass cards, gradients, motion-rich interactions).
+- Prefer small, incremental edits and avoid broad rewrites unless requested.
+- Do not introduce heavy dependencies without explicit approval.
+
+Architecture memory:
+- `static-site/src/sections/` holds full-page sections used by `src/App.tsx`.
+- `static-site/src/components/` holds reusable UI/background components.
+- `static-site/src/hooks/` contains scroll and animation hooks.
+- `static-site/src/styles/index.css` has Tailwind directives and custom utility layers.
+- `static-site/vite.config.ts` uses `base: "./"` for portable static deployment.
+
+Delivery style:
+- Be concise and implementation-first.
+- When done, report changed files and verification commands run.

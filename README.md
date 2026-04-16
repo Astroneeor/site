@@ -1,22 +1,23 @@
 # personal-site
 
-Monorepo containing two versions of my personal site.
+Monorepo containing multiple versions/apps for my personal site ecosystem.
 
 | Project | Description | Status |
 |---------|-------------|--------|
 | [`static-site/`](./static-site) | Portfolio site — Vite + React + TypeScript | Production |
 | [`game-site/`](./game-site) | Platformer game version of the site | In development |
+| [`workshop-site/`](./workshop-site) | Tool library hub (route-based apps under one workshop domain) | In development |
 
 ## Getting started
 
 Each project is self-contained. Navigate into the relevant folder and follow its own README.
 
 ```bash
-cd static-site   # or game-site
+cd static-site   # or game-site or workshop-site
 npm install
 npm run dev
 ```
 
 ## Deployment
 
-Both sites target Vercel. The deployable artifact for `static-site` is the `dist/` folder produced by `npm run build`.
+All projects can be deployed independently. `static-site` and `workshop-site` both produce a deployable `dist/` folder via `npm run build`.
