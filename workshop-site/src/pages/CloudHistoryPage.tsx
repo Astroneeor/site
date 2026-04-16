@@ -33,7 +33,7 @@ export function CloudHistoryPage() {
   }
 
   return (
-    <section className="panel">
+    <section className="panel glass">
       <h1>Account history</h1>
       <p>
         Snapshots you saved while signed in across workshop tools. This page is

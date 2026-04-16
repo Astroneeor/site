@@ -52,7 +52,7 @@ export function LoginPage() {
   }
 
   return (
-    <section className="panel">
+    <section className="panel glass">
       <h1>Workshop Login</h1>
       <p>Mock auth is active now. Supabase auth will plug into the same flow later.</p>
       <form className="auth-form" onSubmit={onSubmit}>

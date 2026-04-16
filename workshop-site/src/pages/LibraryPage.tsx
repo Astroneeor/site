@@ -17,7 +17,7 @@ const tools = [
 
 export function LibraryPage() {
   return (
-    <section className="panel">
+    <section className="panel glass">
       <h1>Workshop Library</h1>
       <p>
         Tools are open to everyone. Each tool keeps lightweight history in this
@@ -26,7 +26,7 @@ export function LibraryPage() {
       </p>
       <div className="tool-grid">
         {tools.map((tool) => (
-          <article className="tool-card" key={tool.route}>
+          <article className="tool-card glass" key={tool.route}>
             <h2>{tool.name}</h2>
             <p>{tool.details}</p>
             <small>{tool.access}</small>

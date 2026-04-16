@@ -14,7 +14,7 @@ export function ToolPage({
   backendStatus,
 }: ToolPageProps) {
   return (
-    <section className="panel">
+    <section className="panel glass">
       <h1>{title}</h1>
       <p>{description}</p>
       <div className="status-box">

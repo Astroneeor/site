@@ -1,8 +1,14 @@
+/* ── Base ─────────────────────────────────────────────────────────── */
+
 :root {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color: #e7f4ec;
-  background-color: #07140f;
-  line-height: 1.5;
+  color: #e0f0e8;
+  line-height: 1.55;
+  --glass-bg: rgba(12, 32, 24, 0.45);
+  --glass-border: rgba(80, 180, 130, 0.25);
+  --glass-blur: 18px;
+  --glass-highlight: rgba(140, 240, 200, 0.08);
+  --float-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 * {
@@ -12,7 +18,8 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top, #123526, #07140f 45%);
+  background: #050e0a;
+  overflow-x: hidden;
 }
 
 a {
@@ -22,50 +29,162 @@ a {
 
 #root {
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
+
+/* ── Ocean background ─────────────────────────────────────────────── */
+
+.ocean-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ocean-gradient {
+  position: absolute;
+  inset: 0;
+  transition: background 0.6s ease;
+}
+
+.ocean-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 35vh;
+  min-height: 180px;
+}
+
+.wave {
+  transform-origin: center bottom;
+}
+
+.wave--1 {
+  animation: wave-drift 8s ease-in-out infinite alternate;
+}
+.wave--2 {
+  animation: wave-drift 10s ease-in-out infinite alternate-reverse;
+}
+.wave--3 {
+  animation: wave-drift 12s ease-in-out infinite alternate;
+}
+
+@keyframes wave-drift {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+/* ── Hue wheel ────────────────────────────────────────────────────── */
+
+.hue-wheel {
+  cursor: pointer;
+  touch-action: none;
+  filter: drop-shadow(0 0 6px rgba(120, 240, 180, 0.3));
+  transition: filter 0.3s;
+  flex-shrink: 0;
+}
+
+.hue-wheel:hover {
+  filter: drop-shadow(0 0 12px rgba(120, 240, 180, 0.55));
+}
+
+/* ── Glass helper ─────────────────────────────────────────────────── */
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ── App shell ────────────────────────────────────────────────────── */
 
 .app-shell {
   max-width: 1080px;
   margin: 0 auto;
   padding: 1rem;
+  position: relative;
+  z-index: 1;
 }
+
+/* ── Header ───────────────────────────────────────────────────────── */
 
 .app-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid #1f4635;
-  border-radius: 12px;
-  background: rgba(11, 30, 22, 0.9);
+  gap: 0.8rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 22px;
+  animation: header-float 6s var(--float-ease) infinite;
+}
+
+@keyframes header-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .brand {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 14px rgba(100, 220, 160, 0.5);
 }
 
 .app-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
 
 .app-nav a,
 .auth-status a,
 .button-link,
 button {
-  border: 1px solid #2d6f53;
-  border-radius: 8px;
-  padding: 0.45rem 0.8rem;
-  background: #103222;
-  color: #cbefda;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.4rem 0.85rem;
+  background: rgba(14, 44, 32, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #c4edda;
+  font-size: 0.9rem;
+  transition:
+    transform 0.35s var(--float-ease),
+    box-shadow 0.35s,
+    background 0.3s;
+  cursor: pointer;
+}
+
+.app-nav a:hover,
+.auth-status a:hover,
+.button-link:hover,
+button:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(22, 70, 50, 0.6);
 }
 
 .app-nav a.active {
-  background: #1b4d36;
+  background: rgba(30, 90, 65, 0.55);
+  box-shadow:
+    inset 0 0 12px rgba(80, 200, 140, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .auth-status {
@@ -75,58 +194,159 @@ button {
 }
 
 .app-main {
-  padding-block: 1rem;
+  padding-block: 1.25rem;
 }
+
+/* ── Iceberg panels ───────────────────────────────────────────────── */
 
 .panel {
-  border: 1px solid #1f4635;
-  border-radius: 12px;
-  background: rgba(11, 30, 22, 0.85);
-  padding: 1.25rem;
+  border-radius: 26px 26px 18px 18px;
+  padding: 1.5rem 1.4rem;
+  position: relative;
+  animation: iceberg-bob 7s var(--float-ease) infinite;
+  transition: transform 0.4s var(--float-ease), box-shadow 0.4s;
 }
 
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    170deg,
+    rgba(140, 240, 200, 0.15) 0%,
+    transparent 40%,
+    transparent 70%,
+    rgba(60, 160, 120, 0.08) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.panel:hover {
+  transform: translateY(-5px) rotate(0.3deg);
+  box-shadow:
+    0 14px 44px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+@keyframes iceberg-bob {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(4px) rotate(-0.3deg);
+  }
+}
+
+/* ── Tool grid + iceberg cards ────────────────────────────────────── */
+
 .tool-grid {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.1rem;
 }
 
 .tool-card {
-  border: 1px solid #2d6f53;
-  border-radius: 10px;
-  padding: 1rem;
+  border-radius: 22px 22px 16px 16px;
+  padding: 1.15rem;
   display: grid;
-  gap: 0.6rem;
-  background: rgba(8, 25, 18, 0.8);
+  gap: 0.65rem;
+  position: relative;
+  animation: card-float 6s var(--float-ease) infinite;
+  animation-delay: var(--float-delay, 0s);
+  transition:
+    transform 0.4s var(--float-ease),
+    box-shadow 0.4s;
 }
+
+.tool-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(90deg, transparent, rgba(100, 200, 160, 0.2), transparent);
+}
+
+.tool-card:nth-child(1) { --float-delay: 0s; }
+.tool-card:nth-child(2) { --float-delay: 1.2s; }
+.tool-card:nth-child(3) { --float-delay: 0.6s; }
+.tool-card:nth-child(4) { --float-delay: 1.8s; }
+
+.tool-card:hover {
+  transform: translateY(-8px) rotate(-0.5deg) scale(1.02);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(80, 200, 140, 0.08);
+}
+
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-10px) rotate(0.7deg);
+  }
+  60% {
+    transform: translateY(3px) rotate(-0.4deg);
+  }
+}
+
+/* ── Status box ───────────────────────────────────────────────────── */
 
 .status-box {
   margin-top: 1rem;
-  border: 1px dashed #58b180;
-  border-radius: 10px;
-  padding: 0.8rem;
+  border: 1px dashed rgba(88, 177, 128, 0.4);
+  border-radius: 16px;
+  padding: 0.9rem;
+  background: rgba(8, 28, 18, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
+
+/* ── Auth form ────────────────────────────────────────────────────── */
 
 .auth-form {
   margin-top: 1rem;
   display: grid;
-  gap: 0.6rem;
+  gap: 0.65rem;
   max-width: 420px;
 }
 
 .auth-form input {
-  border: 1px solid #2d6f53;
-  border-radius: 8px;
-  background: #092015;
-  color: #e7f4ec;
-  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: rgba(6, 20, 14, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #e0f0e8;
+  padding: 0.6rem 0.8rem;
+  transition: box-shadow 0.3s;
+}
+
+.auth-form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(100, 200, 160, 0.35);
 }
 
 .error-text {
   color: #ff9f9f;
   margin: 0;
 }
+
+/* ── History panels ───────────────────────────────────────────────── */
 
 .history-panels {
   margin-top: 1.25rem;
@@ -136,12 +356,11 @@ button {
 }
 
 .history-panel {
-  border: 1px solid #2d6f53;
-  border-radius: 10px;
-  padding: 1rem;
-  background: rgba(8, 25, 18, 0.75);
+  border-radius: 18px;
+  padding: 1.1rem;
   display: grid;
   gap: 0.65rem;
+  animation: card-float 8s var(--float-ease) infinite;
 }
 
 .history-panel h2 {
@@ -191,13 +410,19 @@ button {
 }
 
 .button-ghost {
-  border: 1px solid #3d8060;
-  border-radius: 8px;
-  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(61, 128, 96, 0.5);
+  border-radius: 14px;
+  padding: 0.4rem 0.7rem;
   background: transparent;
-  color: #cbefda;
+  color: #c4edda;
   width: fit-content;
   cursor: pointer;
+  transition: transform 0.3s var(--float-ease), box-shadow 0.3s;
+}
+
+.button-ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .history-table {
@@ -209,11 +434,13 @@ button {
 
 .history-table th,
 .history-table td {
-  border: 1px solid #2d6f53;
-  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--glass-border);
+  padding: 0.55rem 0.65rem;
   text-align: left;
 }
 
 .history-table th {
-  background: rgba(16, 50, 34, 0.6);
+  background: rgba(16, 50, 34, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }

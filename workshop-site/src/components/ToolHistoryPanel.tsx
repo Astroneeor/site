@@ -76,7 +76,7 @@ export function ToolHistoryPanel({ toolId }: ToolHistoryPanelProps) {
 
   return (
     <div className="history-panels">
-      <div className="history-panel history-panel--local">
+      <div className="history-panel history-panel--local glass">
         <h2>This browser</h2>
         <p className="history-hint">
           Saved only on this device. No account required. Cleared if you clear site
@@ -88,7 +88,7 @@ export function ToolHistoryPanel({ toolId }: ToolHistoryPanelProps) {
         <SnapshotList items={localItems} />
       </div>
 
-      <div className="history-panel history-panel--cloud">
+      <div className="history-panel history-panel--cloud glass">
         <h2>Account history</h2>
         {isAuthenticated && user ? (
           <>
