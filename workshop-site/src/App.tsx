@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import {
   Navigate,
   NavLink,
@@ -13,8 +14,16 @@ import { OceanBackground } from './components/OceanBackground'
 import { CloudHistoryPage } from './pages/CloudHistoryPage'
 import { LibraryPage } from './pages/LibraryPage'
 import { LoginPage } from './pages/LoginPage'
-import { ToolPage } from './pages/ToolPage'
 import { ThemeHueProvider } from './theme/ThemeHueContext'
+import { workshopTools } from './registry/toolsRegistry'
+
+function RouteFallback() {
+  return (
+    <div className="panel glass route-fallback">
+      <p>Loading tool…</p>
+    </div>
+  )
+}
 
 function ProtectedRoute() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -44,8 +53,13 @@ function AppShell() {
           </NavLink>
           <nav className="app-nav" aria-label="Workshop routes">
             <NavLink to="/">Library</NavLink>
-            <NavLink to="/skill-tree">Skill Tree</NavLink>
-            <NavLink to="/diff-viewer">Diff Viewer</NavLink>
+            {workshopTools
+              .filter((t) => t.showInNav)
+              .map((t) => (
+                <NavLink key={t.id} to={t.path}>
+                  {t.title}
+                </NavLink>
+              ))}
             {isAuthenticated ? (
               <NavLink to="/history">Account history</NavLink>
             ) : null}
@@ -80,28 +94,20 @@ function App() {
           <Route element={<AppShell />}>
             <Route path="/" element={<LibraryPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/skill-tree"
-              element={
-                <ToolPage
-                  toolId="skill-tree"
-                  title="Skill Tree Builder"
-                  description="Model your growth path as a visual skill tree with dependencies."
-                  backendStatus="No backend required for core editing. Save/share can be added later."
+            {workshopTools.map((tool) => {
+              const ToolComponent = tool.Component
+              return (
+                <Route
+                  key={tool.id}
+                  path={tool.path.replace(/^\//, '')}
+                  element={
+                    <Suspense fallback={<RouteFallback />}>
+                      <ToolComponent />
+                    </Suspense>
+                  }
                 />
-              }
-            />
-            <Route
-              path="/diff-viewer"
-              element={
-                <ToolPage
-                  toolId="diff-viewer"
-                  title="Diff Viewer"
-                  description="Inspect file edits quickly with side-by-side or unified diff modes."
-                  backendStatus="Can run fully local. Optional backend later for sync/history."
-                />
-              }
-            />
+              )
+            })}
             <Route element={<ProtectedRoute />}>
               <Route path="/history" element={<CloudHistoryPage />} />
             </Route>

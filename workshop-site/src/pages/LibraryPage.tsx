@@ -1,19 +1,5 @@
 import { Link } from 'react-router-dom'
-
-const tools = [
-  {
-    route: '/skill-tree',
-    name: 'Skill Tree Builder',
-    details: 'Map dependencies between skills and track progression.',
-    access: 'Public. Local snapshots in this browser; account history after login.',
-  },
-  {
-    route: '/diff-viewer',
-    name: 'Diff Viewer',
-    details: 'Inspect edited files quickly across unified and split views.',
-    access: 'Public. Local snapshots in this browser; account history after login.',
-  },
-]
+import { workshopTools } from '../registry/toolsRegistry'
 
 export function LibraryPage() {
   return (
@@ -25,12 +11,12 @@ export function LibraryPage() {
         (cross-device later via Supabase).
       </p>
       <div className="tool-grid">
-        {tools.map((tool) => (
-          <article className="tool-card glass" key={tool.route}>
-            <h2>{tool.name}</h2>
-            <p>{tool.details}</p>
-            <small>{tool.access}</small>
-            <Link className="button-link" to={tool.route}>
+        {workshopTools.map((tool) => (
+          <article className="tool-card glass" key={tool.id}>
+            <h2>{tool.title}</h2>
+            <p>{tool.description}</p>
+            <small>{tool.accessBlurb}</small>
+            <Link className="button-link" to={tool.path}>
               Open tool
             </Link>
           </article>

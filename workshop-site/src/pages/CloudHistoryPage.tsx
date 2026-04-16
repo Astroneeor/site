@@ -2,11 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import { loadAllCloudHistory } from '../history/cloudHistoryMock'
-
-const TOOL_LABELS: Record<string, string> = {
-  'skill-tree': 'Skill Tree Builder',
-  'diff-viewer': 'Diff Viewer',
-}
+import { getToolPath, getToolTitle } from '../registry/toolsRegistry'
 
 function formatWhen(iso: string) {
   try {
@@ -66,9 +62,7 @@ export function CloudHistoryPage() {
             {rows.map((row) => (
               <tr key={row.id}>
                 <td>
-                  <Link to={`/${row.toolId}`}>
-                    {TOOL_LABELS[row.toolId] ?? row.toolId}
-                  </Link>
+                  <Link to={getToolPath(row.toolId)}>{getToolTitle(row.toolId)}</Link>
                 </td>
                 <td>{row.label}</td>
                 <td>{formatWhen(row.savedAt)}</td>

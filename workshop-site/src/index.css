@@ -444,3 +444,13 @@ button:hover {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
+
+.route-fallback {
+  margin: 0;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.route-fallback p {
+  margin: 0;
+}
